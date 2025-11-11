@@ -11,3 +11,15 @@ export interface RawData {
     conversions: { [key: string]: number };
   }[];
 }
+
+export type ProcessedData = {
+  date: string;
+  timestamp: number;
+  fullDate: Date;
+  isWeekly?: boolean;
+  [key: string]: number | string | Date | boolean | undefined;
+};
+
+export type LineStyle = "line" | "smooth" | "area";
+export type Theme = "light" | "dark";
+export type TimeRange = "day" | "week";

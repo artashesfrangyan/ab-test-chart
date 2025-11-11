@@ -1,4 +1,5 @@
 import { useState, type FC } from "react";
+import { VariationSelector } from "../../../features/variation-selector/ui/VariationSelector";
 
 type Theme = "light" | "dark";
 type LineStyle = "line" | "step";
@@ -12,6 +13,8 @@ export const ChartPage: FC = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomRange, setZoomRange] = useState<{ start: number; end: number }>();
 
+  const { data, variations, isLoading } = useChartData();
+
   const handleVariationChange = (variationId: string) => {
     setSelectedVariations((prev) =>
       prev.includes(variationId)
@@ -24,6 +27,10 @@ export const ChartPage: FC = () => {
     setIsZoomed(false);
     setZoomRange(undefined);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div
@@ -43,6 +50,8 @@ export const ChartPage: FC = () => {
             theme={theme}
           />
 
+          {/* 
+          [FIXME] - Create the following components
           <TimeRangeSelector
             timeRange={timeRange}
             onTimeRangeChange={setTimeRange}
@@ -63,7 +72,7 @@ export const ChartPage: FC = () => {
             theme={theme}
           />
 
-          <ExportChart theme={theme} />
+          <ExportChart theme={theme} /> */}
         </div>
 
         {/* Chart */}
@@ -72,6 +81,8 @@ export const ChartPage: FC = () => {
             theme === "dark" ? "bg-gray-800" : "bg-gray-50"
           }`}
         >
+          {/* 
+          [FIXME] - Create the following component
           <LineChart
             data={data}
             variations={variations}
@@ -80,7 +91,7 @@ export const ChartPage: FC = () => {
             theme={theme}
             isZoomed={isZoomed}
             zoomRange={zoomRange}
-          />
+          /> */}
         </div>
       </div>
     </div>
