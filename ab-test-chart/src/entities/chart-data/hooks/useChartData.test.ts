@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { renderHook } from "@testing-library/react";
 import { calculateConversionRate } from "../../../shared/lib/utils/data-transform";
 import { useChartData } from "./useChartData";
-import type { RawData } from "../../../shared/api/types";
+import type { RawData } from "../../../shared/types";
 
 // Mock data matching our structure
 const mockRawData: RawData = {
@@ -71,7 +71,6 @@ describe("useChartData", () => {
   });
 
   it("should calculate conversion rates correctly", () => {
-
     expect(calculateConversionRate(50, 1000)).toBe(5);
     expect(calculateConversionRate(0, 1000)).toBe(0);
     expect(calculateConversionRate(50, 0)).toBe(0);

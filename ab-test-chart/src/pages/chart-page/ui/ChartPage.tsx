@@ -1,9 +1,8 @@
 import { useState, type FC } from "react";
 import { VariationSelector } from "../../../features/variation-selector/ui/VariationSelector";
-
-type Theme = "light" | "dark";
-type LineStyle = "line" | "step";
-type TimeRange = "day" | "week" | "month";
+import { useChartData } from "../../../entities/chart-data/hooks/useChartData";
+import { LineChart } from "../../../widgets/chart-container/ui/LineChart";
+import type { LineStyle, Theme, TimeRange } from "../../../shared/types";
 
 export const ChartPage: FC = () => {
   const [selectedVariations, setSelectedVariations] = useState<string[]>(["0"]);
@@ -81,8 +80,6 @@ export const ChartPage: FC = () => {
             theme === "dark" ? "bg-gray-800" : "bg-gray-50"
           }`}
         >
-          {/* 
-          [FIXME] - Create the following component
           <LineChart
             data={data}
             variations={variations}
@@ -91,7 +88,7 @@ export const ChartPage: FC = () => {
             theme={theme}
             isZoomed={isZoomed}
             zoomRange={zoomRange}
-          /> */}
+          />
         </div>
       </div>
     </div>

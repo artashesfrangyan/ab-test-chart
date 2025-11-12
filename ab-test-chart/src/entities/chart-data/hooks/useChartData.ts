@@ -4,7 +4,7 @@ import type {
   ProcessedData,
   Variation,
   TimeRange,
-} from "../../../shared/api/types";
+} from "../../../shared/types";
 import { calculateConversionRate } from "../../../shared/lib/utils/data-transform";
 
 import rawData from "../../../shared/api/data.json";

@@ -1,5 +1,5 @@
 import React from "react";
-import type { Variation } from "../../../shared/api/types";
+import type { Variation } from "../../../shared/types";
 
 interface VariationSelectorProps {
   variations: Variation[];

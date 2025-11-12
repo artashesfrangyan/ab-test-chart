@@ -1,4 +1,4 @@
-import type { ProcessedData } from "../../api/types";
+import type { ProcessedData } from "../../types";
 
 export const calculateConversionRate = (
   conversions: number,
