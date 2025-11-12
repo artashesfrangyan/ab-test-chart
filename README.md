@@ -22,6 +22,9 @@ Interactive line chart for visualizing A/B test conversion rates.
 - Theme toggle (Light, Dark, Auto)
 - Export chart to PNG
 
+### Chosen visualization library
+- Recharts
+
 ## Local Setup
 
 1. Clone and install:
