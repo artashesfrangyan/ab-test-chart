@@ -4,7 +4,7 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/ab-test-chart/",
+  base: "/Kameleoon/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
