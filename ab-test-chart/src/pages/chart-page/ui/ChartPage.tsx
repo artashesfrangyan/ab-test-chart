@@ -22,8 +22,7 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
   );
   const [timeRange, setTimeRange] = useState<TimeRange>("day");
   const [lineStyle, setLineStyle] = useState<LineStyle>("line");
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [zoomRange, setZoomRange] = useState<{ start: number; end: number }>();
+  const [zoomLevel, setZoomLevel] = useState(1);
 
   const isDark =
     theme === "dark" ||
@@ -38,9 +37,16 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
     );
   };
 
+  const handleZoomIn = () => {
+    setZoomLevel((prev) => Math.min(prev + 1, 4));
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel((prev) => Math.max(prev - 1, 1));
+  };
+
   const handleResetZoom = () => {
-    setIsZoomed(false);
-    setZoomRange(undefined);
+    setZoomLevel(1);
   };
 
   if (isLoading) {
@@ -87,7 +93,9 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
           />
 
           <ZoomControls
-            isZoomed={isZoomed}
+            zoomLevel={zoomLevel}
+            onZoomIn={handleZoomIn}
+            onZoomOut={handleZoomOut}
             onResetZoom={handleResetZoom}
             theme={isDark ? "dark" : "light"}
           />
@@ -101,8 +109,10 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
             selectedVariations={selectedVariations}
             lineStyle={lineStyle}
             theme={isDark ? "dark" : "light"}
-            isZoomed={isZoomed}
-            zoomRange={zoomRange}
+            zoomLevel={zoomLevel}
+            onZoomIn={handleZoomIn}
+            onZoomOut={handleZoomOut}
+            onResetZoom={handleResetZoom}
           />
         </div>
       </div>

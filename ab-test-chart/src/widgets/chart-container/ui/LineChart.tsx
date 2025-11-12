@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ComposedChart,
   Line,
@@ -25,8 +25,10 @@ interface LineChartProps {
   selectedVariations: string[];
   lineStyle: LineStyle;
   theme: Theme;
-  isZoomed: boolean;
-  zoomRange?: { start: number; end: number };
+  zoomLevel: number;
+  onZoomIn: () => void;
+  onZoomOut: () => void;
+  onResetZoom: () => void;
 }
 
 export const LineChart: React.FC<LineChartProps> = ({
@@ -35,15 +37,15 @@ export const LineChart: React.FC<LineChartProps> = ({
   selectedVariations,
   lineStyle,
   theme,
-  isZoomed,
-  zoomRange,
+  zoomLevel,
+  onZoomIn,
+  onZoomOut,
+  onResetZoom,
 }) => {
-  const chartData =
-    isZoomed && zoomRange
-      ? data.filter(
-          (d) => d.timestamp >= zoomRange.start && d.timestamp <= zoomRange.end
-        )
-      : data;
+  const totalPoints = data.length;
+  const visiblePoints = Math.max(5, Math.floor(totalPoints / zoomLevel));
+  const startIndex = Math.max(0, totalPoints - visiblePoints);
+  const chartData = data.slice(startIndex, totalPoints);
 
   const renderLine = (variation: Variation) => {
     const variationId = variation.id?.toString() || "0";
