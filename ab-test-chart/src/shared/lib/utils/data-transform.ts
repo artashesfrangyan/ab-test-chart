@@ -1,4 +1,4 @@
-import type { RawData, ProcessedData } from "../../types";
+import type { RawData, ProcessedData, Variation } from "../../types";
 
 export const calculateConversionRate = (
   conversions: number,
@@ -12,6 +12,7 @@ export const processChartData = (rawData: RawData): ProcessedData[] => {
     const processedDay: ProcessedData = {
       date: dayData.date,
       timestamp: new Date(dayData.date).getTime(),
+      fullDate: new Date(dayData.date),
     };
 
     // Process each variation
@@ -29,6 +30,46 @@ export const processChartData = (rawData: RawData): ProcessedData[] => {
     });
 
     return processedDay;
+  });
+};
+
+export const aggregateWeeklyData = (data: ProcessedData[], variationIds: string[]): ProcessedData[] => {
+  const weekMap = new Map<string, ProcessedData>();
+
+  data.forEach((day) => {
+    const date = new Date(day.date);
+    const weekStart = new Date(date);
+    weekStart.setDate(date.getDate() - date.getDay());
+    const weekKey = weekStart.toISOString().split('T')[0];
+
+    if (!weekMap.has(weekKey)) {
+      weekMap.set(weekKey, {
+        date: weekKey,
+        timestamp: weekStart.getTime(),
+        fullDate: weekStart,
+        isWeekly: true,
+      });
+
+      variationIds.forEach((id) => {
+        weekMap.get(weekKey)![`${id}_visits`] = 0;
+        weekMap.get(weekKey)![`${id}_conversions`] = 0;
+      });
+    }
+
+    const weekData = weekMap.get(weekKey)!;
+    variationIds.forEach((id) => {
+      weekData[`${id}_visits`] = (weekData[`${id}_visits`] as number) + (day[`${id}_visits`] as number || 0);
+      weekData[`${id}_conversions`] = (weekData[`${id}_conversions`] as number) + (day[`${id}_conversions`] as number || 0);
+    });
+  });
+
+  return Array.from(weekMap.values()).map((week) => {
+    variationIds.forEach((id) => {
+      const visits = week[`${id}_visits`] as number;
+      const conversions = week[`${id}_conversions`] as number;
+      week[`${id}_rate`] = calculateConversionRate(conversions, visits);
+    });
+    return week;
   });
 };
 

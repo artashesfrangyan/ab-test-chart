@@ -1,4 +1,4 @@
-import { useState, type FC } from "react";
+import { useState, useMemo, type FC } from "react";
 import { VariationSelector } from "../../../features/variation-selector/ui/VariationSelector";
 import { useChartData } from "../../../entities/chart-data/hooks/useChartData";
 import { LineChart } from "../../../widgets/chart-container/ui/LineChart";
@@ -6,6 +6,7 @@ import { TimeRangeSelector } from "../../../widgets/chart-container/ui/TimeRange
 import { LineStyleSelector } from "../../../features/line-style-selector/ui/LineStyleSelector";
 import { ThemeToggle } from "../../../features/theme-toggle/ui/ThemeToggle";
 import { ZoomControls } from "../../../features/zoom-controls/ui/ZoomControl";
+import { aggregateWeeklyData } from "../../../shared/lib/utils/data-transform";
 import type { LineStyle, Theme, TimeRange } from "../../../shared/types";
 import styles from "./ChartPage.module.css";
 
@@ -15,7 +16,7 @@ interface ChartPageProps {
 }
 
 export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
-  const { data, variations, isLoading } = useChartData();
+  const { data: rawData, variations, isLoading } = useChartData();
   
   const [selectedVariations, setSelectedVariations] = useState<string[]>(
     () => variations.map((v) => v.id?.toString() || "0")
@@ -23,6 +24,19 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
   const [timeRange, setTimeRange] = useState<TimeRange>("day");
   const [lineStyle, setLineStyle] = useState<LineStyle>("line");
   const [zoomLevel, setZoomLevel] = useState(1);
+
+  const data = useMemo(() => {
+    if (timeRange === "week") {
+      const variationIds = variations.map((v) => v.id?.toString() || "0");
+      return aggregateWeeklyData(rawData, variationIds);
+    }
+    return rawData;
+  }, [rawData, timeRange, variations]);
+
+  const handleTimeRangeChange = (range: TimeRange) => {
+    setTimeRange(range);
+    setZoomLevel(1);
+  };
 
   const isDark =
     theme === "dark" ||
@@ -38,7 +52,8 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
   };
 
   const handleZoomIn = () => {
-    setZoomLevel((prev) => Math.min(prev + 1, 4));
+    const maxZoom = Math.max(2, Math.min(4, Math.floor(data.length / 2)));
+    setZoomLevel((prev) => Math.min(prev + 1, maxZoom));
   };
 
   const handleZoomOut = () => {
@@ -82,7 +97,7 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
 
           <TimeRangeSelector
             timeRange={timeRange}
-            onTimeRangeChange={setTimeRange}
+            onTimeRangeChange={handleTimeRangeChange}
             theme={isDark ? "dark" : "light"}
           />
 
@@ -98,6 +113,7 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
             onZoomOut={handleZoomOut}
             onResetZoom={handleResetZoom}
             theme={isDark ? "dark" : "light"}
+            maxZoom={Math.max(2, Math.min(4, Math.floor(data.length / 2)))}
           />
           </div>
         </div>

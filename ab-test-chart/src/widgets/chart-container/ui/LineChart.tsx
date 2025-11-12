@@ -43,9 +43,14 @@ export const LineChart: React.FC<LineChartProps> = ({
   onResetZoom,
 }) => {
   const totalPoints = data.length;
-  const visiblePoints = Math.max(5, Math.floor(totalPoints / zoomLevel));
+  const visiblePoints = Math.max(2, Math.ceil(totalPoints / zoomLevel));
   const startIndex = Math.max(0, totalPoints - visiblePoints);
-  const chartData = data.slice(startIndex, totalPoints);
+  const chartData = visiblePoints < totalPoints ? data.slice(startIndex, totalPoints) : data;
+
+  const formatXAxis = (value: string) => {
+    const date = new Date(value);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
 
   const renderLine = (variation: Variation) => {
     const variationId = variation.id?.toString() || "0";
@@ -94,7 +99,7 @@ export const LineChart: React.FC<LineChartProps> = ({
         <XAxis
           dataKey="date"
           tick={{ fill: theme === "dark" ? "#fff" : "#000" }}
-          tickFormatter={(value) => new Date(value).toLocaleDateString()}
+          tickFormatter={formatXAxis}
         />
         <YAxis
           tick={{ fill: theme === "dark" ? "#fff" : "#000" }}

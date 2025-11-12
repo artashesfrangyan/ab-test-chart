@@ -8,6 +8,7 @@ interface ZoomControlsProps {
   onZoomOut: () => void;
   onResetZoom: () => void;
   theme: Theme;
+  maxZoom?: number;
 }
 
 export const ZoomControls: React.FC<ZoomControlsProps> = ({
@@ -16,6 +17,7 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({
   onZoomOut,
   onResetZoom,
   theme,
+  maxZoom = 4,
 }) => {
   const isDark = theme === "dark";
 
@@ -24,7 +26,7 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({
       <button
         className={`${styles.button} ${isDark ? styles.dark : styles.light}`}
         onClick={onZoomIn}
-        disabled={zoomLevel >= 4}
+        disabled={zoomLevel >= maxZoom || maxZoom <= 1}
         title="Zoom In"
       >
         🔍+
