@@ -1,5 +1,6 @@
 import React from "react";
 import type { LineStyle, Theme } from "../../../shared/types";
+import styles from "./LineStyleSelector.module.css";
 
 interface LineStyleSelectorProps {
   lineStyle: LineStyle;
@@ -12,30 +13,29 @@ export const LineStyleSelector: React.FC<LineStyleSelectorProps> = ({
   onLineStyleChange,
   theme,
 }) => {
-  const styles: { value: LineStyle; label: string }[] = [
-    { value: "line", label: "Line" },
-    { value: "smooth", label: "Smooth" },
-    { value: "area", label: "Area" },
+  const styleOptions: { value: LineStyle; label: string; icon: string }[] = [
+    { value: "line", label: "Line", icon: "📈" },
+    { value: "smooth", label: "Smooth", icon: "〰️" },
+    { value: "area", label: "Area", icon: "📊" },
   ];
 
   return (
-    <select
-      value={lineStyle}
-      onChange={(e) => onLineStyleChange(e.target.value as LineStyle)}
-      className={`px-4 py-2 rounded border ${
-        theme === "dark"
-          ? "bg-gray-700 text-white border-gray-600"
-          : "bg-white text-gray-800 border-gray-300"
-      }`}
-      style={{
-        colorScheme: theme === "dark" ? "dark" : "light",
-      }}
-    >
-      {styles.map((style) => (
-        <option key={style.value} value={style.value}>
-          {style.label}
-        </option>
-      ))}
-    </select>
+    <div className={styles.container}>
+      <label className={styles.label}>Chart Style</label>
+      <select
+        value={lineStyle}
+        onChange={(e) => onLineStyleChange(e.target.value as LineStyle)}
+        className={`${styles.select} ${theme === "dark" ? styles.dark : styles.light}`}
+        style={{
+          colorScheme: theme === "dark" ? "dark" : "light",
+        }}
+      >
+        {styleOptions.map((style) => (
+          <option key={style.value} value={style.value}>
+            {style.icon} {style.label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 };

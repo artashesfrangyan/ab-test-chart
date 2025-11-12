@@ -1,5 +1,6 @@
 import React from "react";
 import type { Theme } from "../../../shared/types";
+import styles from "./ZoomControl.module.css";
 
 interface ZoomControlsProps {
   isZoomed: boolean;
@@ -16,14 +17,10 @@ export const ZoomControls: React.FC<ZoomControlsProps> = ({
 
   return (
     <button
-      className={`px-4 py-2 rounded border ${
-        theme === "dark"
-          ? "bg-gray-700 text-white border-gray-600"
-          : "bg-white text-gray-800 border-gray-300"
-      }`}
+      className={`${styles.button} ${theme === "dark" ? styles.dark : styles.light}`}
       onClick={onResetZoom}
     >
-      Reset Zoom
+      🔄 Reset Zoom
     </button>
   );
 };

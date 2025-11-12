@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.checkboxLabel.light {
+  background-color: #ffffff;
+  color: #1f2937;
+  border-color: #d1d5db;
+}
+
+.checkboxLabel.light:hover {
+  border-color: #9ca3af;
+}
+
+.checkboxLabel.dark {
+  background-color: #374151;
+  color: #ffffff;
+  border-color: #4b5563;
+}
+
+.checkboxLabel.dark:hover {
+  background-color: #4b5563;
+}
+
+.checkboxLabel.selected {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.checkboxLabel.disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.checkbox {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.checkboxText {
+  font-weight: 500;
+}

@@ -7,6 +7,7 @@ import { LineStyleSelector } from "../../../features/line-style-selector/ui/Line
 import { ThemeToggle } from "../../../features/theme-toggle/ui/ThemeToggle";
 import { ZoomControls } from "../../../features/zoom-controls/ui/ZoomControl";
 import type { LineStyle, Theme, TimeRange } from "../../../shared/types";
+import styles from "./ChartPage.module.css";
 
 interface ChartPageProps {
   theme: Theme;
@@ -43,20 +44,29 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.loading}>
+        <div className={styles.loadingText}>Loading...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-6xl mx-auto relative">
-        <div className="absolute top-0 right-0">
+    <div className={styles.page}>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div className={styles.headerContent}>
+            <h1 className={styles.title}>A/B Test Conversion Rates</h1>
+            <p className={`${styles.subtitle} ${isDark ? styles.dark : styles.light}`}>
+              Analyze and compare conversion rates across variations
+            </p>
+          </div>
           <ThemeToggle theme={theme} onThemeChange={onThemeChange} />
         </div>
 
-        <h1 className="text-2xl font-bold mb-6">A/B Test Conversion Rates</h1>
-
-        {/* Controls */}
-        <div className="flex flex-wrap gap-4 mb-6 items-center">
+        <div className={`${styles.controls} ${isDark ? styles.dark : styles.light}`}>
+          <h2 className={styles.controlsTitle}>Controls</h2>
+          <div className={styles.controlsGroup}>
           <VariationSelector
             variations={variations}
             selectedVariations={selectedVariations}
@@ -81,15 +91,10 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
             onResetZoom={handleResetZoom}
             theme={isDark ? "dark" : "light"}
           />
+          </div>
         </div>
 
-        {/* Chart */}
-        <div
-          className="rounded-lg p-4"
-          style={{
-            backgroundColor: isDark ? "#1f2937" : "#f9fafb",
-          }}
-        >
+        <div className={`${styles.chart} ${isDark ? styles.dark : styles.light}`}>
           <LineChart
             data={data}
             variations={variations}

@@ -1,5 +1,6 @@
 import React from "react";
 import type { Variation } from "../../../shared/types";
+import styles from "./CustomTooltip.module.css";
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -18,40 +19,25 @@ export const CustomTooltip: React.FC<CustomTooltipProps> = ({
 }) => {
   if (active && payload && payload.length) {
     return (
-      <div
-        className="rounded-lg shadow-2xl border-2"
-        style={{
-          backgroundColor: theme === "dark" ? "#1f2937" : "#ffffff",
-          borderColor: theme === "dark" ? "#4b5563" : "#e5e7eb",
-          padding: "12px 16px",
-          borderRadius: "8px",
-          border: "1px solid grey",
-        }}
-      >
-        <p
-          className="font-semibold mb-2 text-sm"
-          style={{
-            color: theme === "dark" ? "#f3f4f6" : "#111827",
-          }}
-        >
+      <div className={`${styles.tooltip} ${theme === "dark" ? styles.dark : styles.light}`}>
+        <p className={`${styles.date} ${theme === "dark" ? styles.dark : styles.light}`}>
           {new Date(label!).toLocaleDateString()}
         </p>
-        {payload.map((entry, index) => {
-          const variationId = entry.dataKey.split("_")[0];
-          const variation = variations.find(
-            (v) => (v.id?.toString() || "0") === variationId
-          );
+        <div className={styles.values}>
+          {payload.map((entry, index) => {
+            const variationId = entry.dataKey.split("_")[0];
+            const variation = variations.find(
+              (v) => (v.id?.toString() || "0") === variationId
+            );
 
-          return (
-            <p
-              key={index}
-              className="text-sm font-medium"
-              style={{ color: entry.color }}
-            >
-              {variation?.name}: {entry.value?.toFixed(2)}%
-            </p>
-          );
-        })}
+            return (
+              <p key={index} className={styles.value} style={{ color: entry.color }}>
+                <span>{variation?.name}:</span>
+                <span className={styles.valueLabel}>{entry.value?.toFixed(2)}%</span>
+              </p>
+            );
+          })}
+        </div>
       </div>
     );
   }

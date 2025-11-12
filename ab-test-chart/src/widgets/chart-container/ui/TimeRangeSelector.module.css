@@ -1,0 +1,70 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.buttonGroup {
+  display: flex;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid;
+}
+
+.buttonGroup.light {
+  border-color: #d1d5db;
+}
+
+.buttonGroup.dark {
+  border-color: #4b5563;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.button + .button {
+  border-left: 1px solid;
+}
+
+.button.light {
+  background-color: #ffffff;
+  color: #374151;
+  border-left-color: #d1d5db;
+}
+
+.button.light:hover {
+  background-color: #f9fafb;
+}
+
+.button.dark {
+  background-color: #374151;
+  color: #ffffff;
+  border-left-color: #4b5563;
+}
+
+.button.dark:hover {
+  background-color: #4b5563;
+}
+
+.button.active {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.button.active.light,
+.button.active.dark {
+  background-color: #3b82f6;
+  border-left-color: #60a5fa;
+}

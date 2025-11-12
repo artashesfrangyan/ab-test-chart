@@ -1,5 +1,6 @@
 import React from "react";
 import type { Variation } from "../../../shared/types";
+import styles from "./VariationSelector.module.css";
 
 interface VariationSelectorProps {
   variations: Variation[];
@@ -25,33 +26,37 @@ export const VariationSelector: React.FC<VariationSelectorProps> = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-4 mb-4">
-      {variations.map((variation) => {
-        const variationId = variation.id?.toString() || "0";
-        const isSelected = selectedVariations.includes(variationId);
+    <div className={styles.container}>
+      <label className={styles.label}>Variations</label>
+      <div className={styles.checkboxGroup}>
+        {variations.map((variation) => {
+          const variationId = variation.id?.toString() || "0";
+          const isSelected = selectedVariations.includes(variationId);
+          const isDisabled = selectedVariations.length === 1 && isSelected;
 
-        return (
-          <label
-            key={variationId}
-            className={`flex items-center cursor-pointer px-3 py-2 rounded border ${
-              isSelected
-                ? "bg-blue-500 text-white border-blue-500"
-                : theme === "dark"
-                ? "bg-gray-700 text-white border-gray-600"
-                : "bg-gray-100 text-gray-800 border-gray-300"
-            }`}
-          >
-            <input
-              type="checkbox"
-              checked={isSelected}
-              onChange={() => handleChange(variationId)}
-              className="mr-2"
-              disabled={selectedVariations.length === 1 && isSelected}
-            />
-            {variation.name}
-          </label>
-        );
-      })}
+          return (
+            <label
+              key={variationId}
+              className={`${styles.checkboxLabel} ${
+                isSelected
+                  ? styles.selected
+                  : theme === "dark"
+                  ? styles.dark
+                  : styles.light
+              } ${isDisabled ? styles.disabled : ""}`}
+            >
+              <input
+                type="checkbox"
+                checked={isSelected}
+                onChange={() => handleChange(variationId)}
+                className={styles.checkbox}
+                disabled={isDisabled}
+              />
+              <span className={styles.checkboxText}>{variation.name}</span>
+            </label>
+          );
+        })}
+      </div>
     </div>
   );
 };
