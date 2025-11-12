@@ -16,11 +16,8 @@ import type {
   LineStyle,
   Theme,
 } from "../../../shared/types";
-import {
-  getVariationColor,
-  getVisibleDataRange,
-} from "../../../shared/lib/utils/data-transform";
 import { CustomTooltip } from "./CustomTooltip";
+import { getVariationColor } from "../../../shared/lib/utils/data-transform";
 
 interface LineChartProps {
   data: ProcessedData[];
@@ -47,8 +44,6 @@ export const LineChart: React.FC<LineChartProps> = ({
           (d) => d.timestamp >= zoomRange.start && d.timestamp <= zoomRange.end
         )
       : data;
-
-  const { minY, maxY } = getVisibleDataRange(chartData, selectedVariations);
 
   const renderLine = (variation: Variation) => {
     const variationId = variation.id?.toString() || "0";
@@ -84,17 +79,6 @@ export const LineChart: React.FC<LineChartProps> = ({
     );
   };
 
-  const formatXAxis = (date: string) => {
-    if (data[0]?.isWeekly) {
-      // For weekly data, show week number
-      return `Week ${date.split("-W")[1]}`;
-    }
-    return new Date(date).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-  };
-
   return (
     <ResponsiveContainer width="100%" height={400}>
       <RechartsLineChart
@@ -108,12 +92,12 @@ export const LineChart: React.FC<LineChartProps> = ({
         <XAxis
           dataKey="date"
           tick={{ fill: theme === "dark" ? "#fff" : "#000" }}
-          tickFormatter={formatXAxis}
+          tickFormatter={(value) => new Date(value).toLocaleDateString()}
         />
         <YAxis
           tick={{ fill: theme === "dark" ? "#fff" : "#000" }}
           tickFormatter={(value) => `${value.toFixed(1)}%`}
-          domain={[minY, maxY]}
+          domain={[0, "dataMax + 5"]}
         />
         <Tooltip
           content={<CustomTooltip variations={variations} theme={theme} />}

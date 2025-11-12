@@ -1,55 +1,39 @@
-import type { ProcessedData } from "../../types";
+import type { RawData, ProcessedData } from "../../types";
 
 export const calculateConversionRate = (
   conversions: number,
   visits: number
 ): number => {
-  if (visits === 0) return 0;
-  return parseFloat(((conversions / visits) * 100).toFixed(2));
+  return visits > 0 ? (conversions / visits) * 100 : 0;
+};
+
+export const processChartData = (rawData: RawData): ProcessedData[] => {
+  return rawData.data.map((dayData) => {
+    const processedDay: ProcessedData = {
+      date: dayData.date,
+      timestamp: new Date(dayData.date).getTime(),
+    };
+
+    // Process each variation
+    rawData.variations.forEach((variation) => {
+      const variationId = variation.id?.toString() || "0";
+      const visits = dayData.visits[variationId] || 0;
+      const conversions = dayData.conversions[variationId] || 0;
+
+      processedDay[`${variationId}_visits`] = visits;
+      processedDay[`${variationId}_conversions`] = conversions;
+      processedDay[`${variationId}_rate`] = calculateConversionRate(
+        conversions,
+        visits
+      );
+    });
+
+    return processedDay;
+  });
 };
 
 export const getVariationColor = (variationId: string): string => {
-  const colors = [
-    "#8884d8",
-    "#82ca9d",
-    "#ffc658",
-    "#ff7300",
-    "#ff0000",
-    "#00ff00",
-  ];
+  const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300"];
   const index = parseInt(variationId) % colors.length;
   return colors[index];
-};
-
-export const formatPercentage = (value: number): string => {
-  return `${value.toFixed(2)}%`;
-};
-
-export const getVisibleDataRange = (
-  data: ProcessedData[],
-  selectedVariations: string[]
-): { minY: number; maxY: number } => {
-  if (data.length === 0) return { minY: 0, maxY: 100 };
-
-  let minY = Infinity;
-  let maxY = -Infinity;
-
-  data.forEach((day) => {
-    selectedVariations.forEach((variationId) => {
-      const rateKey = `${variationId}_rate` as keyof ProcessedData;
-      const rate = day[rateKey] as number;
-
-      if (rate !== undefined && !isNaN(rate)) {
-        minY = Math.min(minY, rate);
-        maxY = Math.max(maxY, rate);
-      }
-    });
-  });
-
-  // Add some padding and ensure reasonable bounds
-  const padding = (maxY - minY) * 0.1 || 5;
-  return {
-    minY: Math.max(0, minY - padding),
-    maxY: Math.min(100, maxY + padding),
-  };
 };
