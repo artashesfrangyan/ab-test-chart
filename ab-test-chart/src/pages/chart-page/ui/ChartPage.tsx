@@ -1,4 +1,4 @@
-import { useState, useMemo, type FC } from "react";
+import { useState, useMemo, useRef, type FC } from "react";
 import { VariationSelector } from "@features/variation-selector/ui/VariationSelector";
 import { useChartData } from "@entities/chart-data/hooks/useChartData";
 import { LineChart } from "@widgets/chart-container/ui/LineChart";
@@ -6,6 +6,7 @@ import { TimeRangeSelector } from "@widgets/chart-container/ui/TimeRangeSelector
 import { LineStyleSelector } from "@features/line-style-selector/ui/LineStyleSelector";
 import { ThemeToggle } from "@features/theme-toggle/ui/ThemeToggle";
 import { ZoomControls } from "@features/zoom-controls/ui/ZoomControl";
+import { ExportChart } from "@features/export-chart/ui/ExportChart";
 import { aggregateWeeklyData } from "@shared/lib/utils/data-transform";
 import type { LineStyle, Theme, TimeRange } from "@shared/types";
 import styles from "./ChartPage.module.css";
@@ -17,6 +18,7 @@ interface ChartPageProps {
 
 export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
   const { data: rawData, variations, isLoading } = useChartData();
+  const chartRef = useRef<HTMLDivElement>(null);
   
   const [selectedVariations, setSelectedVariations] = useState<string[]>(
     () => variations.map((v) => v.id?.toString() || "0")
@@ -86,7 +88,10 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
         </div>
 
         <div className={`${styles.controls} ${isDark ? styles.dark : styles.light}`}>
-          <h2 className={styles.controlsTitle}>Controls</h2>
+          <div className={styles.controlsHeader}>
+            <h2 className={styles.controlsTitle}>Controls</h2>
+            <ExportChart chartRef={chartRef} theme={theme} />
+          </div>
           <div className={styles.controlsGroup}>
           <VariationSelector
             variations={variations}
@@ -118,7 +123,7 @@ export const ChartPage: FC<ChartPageProps> = ({ theme, onThemeChange }) => {
           </div>
         </div>
 
-        <div className={`${styles.chart} ${isDark ? styles.dark : styles.light}`}>
+        <div ref={chartRef} className={`${styles.chart} ${isDark ? styles.dark : styles.light}`}>
           <LineChart
             data={data}
             variations={variations}

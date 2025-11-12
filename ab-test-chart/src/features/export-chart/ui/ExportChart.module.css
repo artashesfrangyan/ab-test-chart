@@ -1,0 +1,33 @@
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.button.light {
+  background-color: #ffffff;
+  color: #1f2937;
+  border-color: #d1d5db;
+}
+
+.button.light:hover {
+  background-color: #f3f4f6;
+}
+
+.button.dark {
+  background-color: #374151;
+  color: #ffffff;
+  border-color: #4b5563;
+}
+
+.button.dark:hover {
+  background-color: #4b5563;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
