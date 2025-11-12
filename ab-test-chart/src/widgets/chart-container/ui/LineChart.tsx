@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  LineChart as RechartsLineChart,
+  ComposedChart,
   Line,
   XAxis,
   YAxis,
@@ -81,7 +81,7 @@ export const LineChart: React.FC<LineChartProps> = ({
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <RechartsLineChart
+      <ComposedChart
         data={chartData}
         margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
       >
@@ -106,7 +106,7 @@ export const LineChart: React.FC<LineChartProps> = ({
         {variations
           .filter((v) => selectedVariations.includes(v.id?.toString() || "0"))
           .map(renderLine)}
-      </RechartsLineChart>
+      </ComposedChart>
     </ResponsiveContainer>
   );
 };

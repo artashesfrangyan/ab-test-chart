@@ -27,6 +27,9 @@ export const LineStyleSelector: React.FC<LineStyleSelectorProps> = ({
           ? "bg-gray-700 text-white border-gray-600"
           : "bg-white text-gray-800 border-gray-300"
       }`}
+      style={{
+        colorScheme: theme === "dark" ? "dark" : "light",
+      }}
     >
       {styles.map((style) => (
         <option key={style.value} value={style.value}>

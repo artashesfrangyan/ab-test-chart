@@ -19,13 +19,21 @@ export const CustomTooltip: React.FC<CustomTooltipProps> = ({
   if (active && payload && payload.length) {
     return (
       <div
-        className={`p-3 border rounded shadow-lg ${
-          theme === "dark"
-            ? "bg-gray-800 border-gray-600 text-white"
-            : "bg-white border-gray-200 text-gray-800"
-        }`}
+        className="rounded-lg shadow-2xl border-2"
+        style={{
+          backgroundColor: theme === "dark" ? "#1f2937" : "#ffffff",
+          borderColor: theme === "dark" ? "#4b5563" : "#e5e7eb",
+          padding: "12px 16px",
+          borderRadius: "8px",
+          border: "1px solid grey",
+        }}
       >
-        <p className="font-bold mb-2">
+        <p
+          className="font-semibold mb-2 text-sm"
+          style={{
+            color: theme === "dark" ? "#f3f4f6" : "#111827",
+          }}
+        >
           {new Date(label!).toLocaleDateString()}
         </p>
         {payload.map((entry, index) => {
@@ -35,7 +43,11 @@ export const CustomTooltip: React.FC<CustomTooltipProps> = ({
           );
 
           return (
-            <p key={index} style={{ color: entry.color }}>
+            <p
+              key={index}
+              className="text-sm font-medium"
+              style={{ color: entry.color }}
+            >
               {variation?.name}: {entry.value?.toFixed(2)}%
             </p>
           );

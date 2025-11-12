@@ -21,5 +21,5 @@ export type ProcessedData = {
 };
 
 export type LineStyle = "line" | "smooth" | "area";
-export type Theme = "light" | "dark";
+export type Theme = "light" | "dark" | "auto";
 export type TimeRange = "day" | "week";
