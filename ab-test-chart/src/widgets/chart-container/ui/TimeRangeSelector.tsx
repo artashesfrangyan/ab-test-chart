@@ -1,5 +1,5 @@
 import React from "react";
-import type { TimeRange, Theme } from "../../../shared/types";
+import type { TimeRange, Theme } from "@shared/types";
 import styles from "./TimeRangeSelector.module.css";
 
 interface TimeRangeSelectorProps {

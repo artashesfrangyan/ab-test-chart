@@ -1,13 +1,19 @@
 import React from "react";
-import type { Variation } from "../../../shared/types";
+import type { Theme, Variation } from "@shared/types";
 import styles from "./CustomTooltip.module.css";
+
+interface TooltipPayload {
+  dataKey: string;
+  value: number;
+  color: string;
+}
 
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: any[];
+  payload?: TooltipPayload[];
   label?: string;
   variations: Variation[];
-  theme: "light" | "dark";
+  theme: Theme;
 }
 
 export const CustomTooltip: React.FC<CustomTooltipProps> = ({

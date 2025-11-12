@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   ComposedChart,
   Line,
@@ -6,7 +6,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Area,
 } from "recharts";
@@ -15,9 +14,9 @@ import type {
   Variation,
   LineStyle,
   Theme,
-} from "../../../shared/types";
+} from "@shared/types";
 import { CustomTooltip } from "./CustomTooltip";
-import { getVariationColor } from "../../../shared/lib/utils/data-transform";
+import { getVariationColor } from "@shared/lib/utils/data-transform";
 import styles from "./LineChart.module.css";
 
 interface LineChartProps {
@@ -38,13 +37,10 @@ export const LineChart: React.FC<LineChartProps> = ({
   selectedVariations,
   lineStyle,
   theme,
-  zoomLevel,
-  onZoomIn,
-  onZoomOut,
-  onResetZoom,
+  zoomLevel
 }) => {
   const chartData = data;
-  const chartWidth = `${100 * zoomLevel}%`;
+  const chartWidth = `${100 * zoomLevel}%` as `${number}%`;
 
   const formatXAxis = (value: string) => {
     const date = new Date(value);

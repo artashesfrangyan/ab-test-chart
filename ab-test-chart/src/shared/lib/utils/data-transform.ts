@@ -1,4 +1,4 @@
-import type { RawData, ProcessedData, Variation } from "../../types";
+import type { RawData, ProcessedData, Variation } from "@shared/types";
 
 export const calculateConversionRate = (
   conversions: number,
