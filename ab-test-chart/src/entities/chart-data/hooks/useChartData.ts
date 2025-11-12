@@ -1,8 +1,8 @@
-import { useMemo, useState, useEffect } from "react";
-import type { ProcessedData, Variation } from "../../../shared/types";
-import { processChartData } from "../../../shared/lib/utils/data-transform";
+import { useMemo } from "react";
+import type { ProcessedData, Variation } from "@shared/types";
+import { processChartData } from "@shared/lib/utils/data-transform";
 
-import rawData from "../../../shared/api/data.json";
+import rawData from "@shared/api/data.json";
 
 export const useChartData = () => {
   const processedData = useMemo((): ProcessedData[] => {

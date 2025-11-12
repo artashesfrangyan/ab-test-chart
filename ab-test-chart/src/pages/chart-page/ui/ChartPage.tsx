@@ -1,13 +1,13 @@
 import { useState, useMemo, type FC } from "react";
-import { VariationSelector } from "../../../features/variation-selector/ui/VariationSelector";
-import { useChartData } from "../../../entities/chart-data/hooks/useChartData";
-import { LineChart } from "../../../widgets/chart-container/ui/LineChart";
-import { TimeRangeSelector } from "../../../widgets/chart-container/ui/TimeRangeSelector";
-import { LineStyleSelector } from "../../../features/line-style-selector/ui/LineStyleSelector";
-import { ThemeToggle } from "../../../features/theme-toggle/ui/ThemeToggle";
-import { ZoomControls } from "../../../features/zoom-controls/ui/ZoomControl";
-import { aggregateWeeklyData } from "../../../shared/lib/utils/data-transform";
-import type { LineStyle, Theme, TimeRange } from "../../../shared/types";
+import { VariationSelector } from "@features/variation-selector/ui/VariationSelector";
+import { useChartData } from "@entities/chart-data/hooks/useChartData";
+import { LineChart } from "@widgets/chart-container/ui/LineChart";
+import { TimeRangeSelector } from "@widgets/chart-container/ui/TimeRangeSelector";
+import { LineStyleSelector } from "@features/line-style-selector/ui/LineStyleSelector";
+import { ThemeToggle } from "@features/theme-toggle/ui/ThemeToggle";
+import { ZoomControls } from "@features/zoom-controls/ui/ZoomControl";
+import { aggregateWeeklyData } from "@shared/lib/utils/data-transform";
+import type { LineStyle, Theme, TimeRange } from "@shared/types";
 import styles from "./ChartPage.module.css";
 
 interface ChartPageProps {

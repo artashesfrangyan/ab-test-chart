@@ -1,5 +1,5 @@
 import React from "react";
-import type { Variation } from "../../../shared/types";
+import type { Variation } from "@shared/types";
 import styles from "./VariationSelector.module.css";
 
 interface VariationSelectorProps {

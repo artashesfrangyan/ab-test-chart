@@ -1,5 +1,5 @@
 import React from "react";
-import type { LineStyle, Theme } from "../../../shared/types";
+import type { LineStyle, Theme } from "@shared/types";
 import styles from "./LineStyleSelector.module.css";
 
 interface LineStyleSelectorProps {

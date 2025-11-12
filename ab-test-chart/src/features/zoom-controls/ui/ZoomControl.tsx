@@ -1,5 +1,5 @@
 import React from "react";
-import type { Theme } from "../../../shared/types";
+import type { Theme } from "@shared/types";
 import styles from "./ZoomControls.module.css";
 
 interface ZoomControlsProps {

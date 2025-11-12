@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { ChartPage } from "../pages/chart-page/ui/ChartPage";
-import type { Theme } from "../shared/types";
+import { ChartPage } from "@pages/chart-page/ui/ChartPage";
+import type { Theme } from "@shared/types";
 
 function App() {
   const [theme, setTheme] = useState<Theme>("auto");

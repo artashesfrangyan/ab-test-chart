@@ -1,5 +1,5 @@
 import React from "react";
-import type { Theme } from "../../../shared/types";
+import type { Theme } from "@shared/types";
 import styles from "./ThemeToggle.module.css";
 
 interface ThemeToggleProps {
